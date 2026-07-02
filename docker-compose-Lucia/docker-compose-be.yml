@@ -1,0 +1,29 @@
+#docker compose -f docker-compose-be.yml up -d
+
+version: "3.9"
+
+services:
+
+  backend:
+    image: luci4sanchez2007/hackathon-backend:latest
+    container_name: hackathon-api
+
+    ports:
+      - "5000:5000"
+
+    environment:
+      PORT: 5000
+      DATABASE_URL: jdbc:sqlserver://hackathon-db:1433;databaseName=TechStore;encrypt=true;trustServerCertificate=true
+      DATABASE_USERNAME: sa
+      DATABASE_PASSWORD: Admin123456!
+      DATABASE_DRIVER: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+    networks:
+      - hackathon-network
+
+    restart: unless-stopped
+
+networks:
+  hackathon-network:
+    name: hackathon-network
+    external: true

@@ -1,0 +1,33 @@
+#docker compose -f docker-compose-db.yml up -d
+
+version: "3.9"
+
+services:
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: hackathon-db
+
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Admin123456!"
+      MSSQL_PID: "Developer"
+
+    ports:
+      - "1433:1433"
+
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+
+    networks:
+      - hackathon-network
+
+    restart: unless-stopped
+
+volumes:
+  sqlserver-data:
+
+networks:
+  hackathon-network:
+    name: hackathon-network
+    driver: bridge
